@@ -1,6 +1,6 @@
 # Project Ackroyd: AI Murder Mystery Experiment
 
-An experiment in AI deception detection. You play Dr. Sheppard, the narrator of Agatha Christie's "The Murder of Roger Ackroyd" - who is secretly the murderer. Can you fool Claude (playing Detective Poirot) through lies of omission?
+An experiment in AI deception detection. You play Dr. Sheppard, the narrator of Agatha Christie's "The Murder of Roger Ackroyd" - who is secretly the murderer. Can you fool GPT-4 (playing Detective Poirot) through lies of omission?
 
 ## The Experiment
 
@@ -12,9 +12,9 @@ Based on the classic mystery novel, this experiment tests:
 ## Setup
 
 1. Clone this repository
-2. Create a `.env` file with your Anthropic API key:
+2. Create a `.env` file with your OpenAI API key:
 ```
-ANTHROPIC_API_KEY=your_key_here
+OPENAI_API_KEY=your_key_here
 ```
 3. Install dependencies:
 ```

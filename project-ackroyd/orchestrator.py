@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """
 PROJECT ACKROYD - AI Murder Mystery Experiment
-You play Dr. Sheppard (the murderer). Can you fool Poirot (Claude)?
+You play Dr. Sheppard (the murderer). Can you fool Poirot (GPT-4)?
 """
 
-import anthropic
+from openai import OpenAI
 import json
 import os
 from datetime import datetime
 from pathlib import Path
-from config import ANTHROPIC_API_KEY, MODEL, MAX_TOKENS
+from config import OPENAI_API_KEY, MODEL, MAX_TOKENS
 
 # Initialize client
-client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Create logs directory if it doesn't exist
 Path("logs").mkdir(exist_ok=True)
@@ -72,18 +72,19 @@ def send_to_character(name, message, sender="game_master"):
 
     char = characters[name]
 
-    # Build messages with history
-    messages = char["history"] + [{"role": "user", "content": message}]
+    # Build messages with system prompt and history
+    messages = [{"role": "system", "content": char["system"]}]
+    messages.extend(char["history"])
+    messages.append({"role": "user", "content": message})
 
     try:
-        response = client.messages.create(
+        response = client.chat.completions.create(
             model=MODEL,
             max_tokens=MAX_TOKENS,
-            system=char["system"],
             messages=messages
         )
 
-        reply = response.content[0].text
+        reply = response.choices[0].message.content
 
         # Update history
         char["history"].append({"role": "user", "content": message})
